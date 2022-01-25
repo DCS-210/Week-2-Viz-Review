@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 2 - Data Visualisation Review</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Laurie Baker" />
+    <meta name="date" content="2022-01-24" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="gentle-ggplot2.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 2 - Data Visualisation Review
+## DCS 210
+### Dr. Laurie Baker
+### 2022-01-24
+
+---
+
+
+layout: false
+class: inverse center middle text-white
+
+.font200[Introduction to ggplot2]
+
+
+
+---
+layout: true
+# What we'll cover today.
+---
+
+- Brief intro to the theory behind `ggplot2` and the "grammar of graphics".
+
+--
+
+- The layers used to build a plot using `ggplot2`.
+
+--
+
+* What to consider as we make plots.
+
+--
+
+* How to use different geoms to create different types of plots (e.g. geom_line, geom_point).
+
+--
+
+* How to customise a plot using labs, theme, facet.
+
+
+
+
+---
+layout: true
+# How would you draw a line graph by hand?
+---
+
+.left-column[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.50 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.30 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.21 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.85 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.86 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.20 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.30 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+
+.right-column[.font150[
+
+1. Draw the axes, add tick marks.
+
+2. Draw each line. Colour by country.
+
+3. Add the axes labels.
+
+4. Add a title.
+
+5. Add a legend.
+
+]]
+
+---
+layout: true
+# How would you draw a bar graph by hand?
+---
+
+.left-column[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.50 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.30 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.21 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.85 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.86 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.20 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.30 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.right-column[.font150[
+
+1. Draw the axes, add tick marks.
+
+2. **Draw each bar.** Colour by country.
+
+3. Add the axes labels.
+
+4. Add a title.
+
+5. Add a legend.
+
+]]
+
+
+---
+layout: true
+# How would you draw a graph?
+---
+
+.left-column[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.50 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.30 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.21 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.85 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.86 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.20 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.30 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.right-column[.font150[
+
+1. What decisions did you make?
+
+2. How did the data inform them?
+
+3. Did you look at the values to decide the axes and tick marks?
+
+4. How did you decide the labels?
+
+]]
+
+
+
+---
+
+---
+layout: true
+# The grammar of graphics
+---
+
+.left-column[
+![](images/grammar_graphics_book.jfif)
+__Grammar of Graphics__
+]
+
+.right-column[
+
+* Computers also follow steps.
+
+* The **grammar of graphics =** rules/steps for plotting.
+
+* First published in 1999.
+
+* Breaks down graphics into its constituent parts. 
+
+*  Focus on the relationship between the **variables** and the *visual properties* of the graph (e.g. *colour* = **country**).
+
+* Foundation for **ggplot2**, **tableau**, **vegalite** etc. 
+
+
+]
+
+
+---
+layout: true
+# What is *ggplot2*?
+---
+
+.left-column[
+![](images/hadley.jpg)
+__Hadley Wickham__
+]
+
+.right-column[.font150[
+
+* **gg**plot2 is the implementation of the **g**rammar of **g**raphics in R with some adaptations.
+
+* ..."a powerful way of thinking about visualisation, as a way of **mapping between variables and the visual properties of geometric objects** that you can perceive."
+
+
+
+]
+.footnote[&lt;http://disq.us/p/sv640d&gt;]
+]
+
+---
+layout: true
+# Why use *ggplot2*?
+---
+
+- Package for .hl[functional] data visualization.
+
+--
+    1. Wrangle data
+    
+--
+
+    2. Map data to visual elements
+    
+--
+
+    3. Tweak scales, guides, axis, labels, theme
+    
+--
+
+- Once you know the syntax it is easy to
+
+--
+
+  - .hl[Reason] about how data drives visualization
+
+--
+
+  - .hl[Iterate] to create multiple visualizations
+
+--
+
+  - Be .hl[consistent] in the visualizations you make.
+
+---
+layout: false
+
+# Learning objectives
+
+.left-column[
+![](images/ggplot2_book.jfif)
+__ggplot2__
+]
+
+.right-column[.font150[
+* `ggplot2` is a huge package with lots of options, but it's well documented and organized.
+
+
+* We'll cover a lot, but won't have time to go into every specific. 
+
+
+
+* The aim is to **equip** you with **where** and **what** to look for. 
+
+]]
+
+
+---
+layout: true
+# Getting started
+
+---
+
+
+**Option 1**: load the metapackage [tidyverse](http://tidyverse.org)
+
+```r
+library(tidyverse)
+```
+
+**Option 2**: load `ggplot2`
+
+```r
+library(ggplot2)
+```
+
+---
+layout: false
+class: inverse center middle text-white
+
+.font200[gg is for&lt;br&gt;Grammar of Graphics]
+
+
+---
+layout: false
+# How do we express visuals in words?
+
+.font120[
+- **Data** to be visualized
+]
+
+--
+.font120[
+- **.hlb[Aes]thetic mappings** from data to visual component
+]
+
+--
+.font120[
+- **.hlb[Geom]etric objects** that appear on the plot
+]
+
+--
+.font120[
+- **.hlb[Stat]istics** transform data on the way to visualization
+]
+
+--
+.font120[
+- **.hlb[Coord]inates** organize location of geometric objects
+]
+
+--
+.font120[
+- **.hlb[Scale]s** define the range of values for aesthetics
+]
+
+--
+.font120[
+- **.hlb[Facet]s** group into subplots
+]
+
+--
+
+--
+.font120[
+- **.hlb[Theme]s** the visual elements of the plot not linked to the data
+]
+
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+
+```r
+ggplot(data)
+```
+]
+
+---
+
+.right-column[
+#### Tidy Data
+
+1. Each **variable** forms a .hl[column]
+
+2. Each **observation** forms a .hl[row]
+
+3. Each **value** is a .hl[cell]
+]
+
+--
+
+.right-column[
+#### Start by asking
+
+1. What information do I want to use in my visualization?
+
+2. Are my variables categorical? Are my variables numeric?
+
+3. Do I want to look at the distribution of a single variable or the **relationship** between variables?
+
+]
+
+---
+
+.right-column[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.599929 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.497046 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.284741 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.212583 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.852401 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.860588 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.081016 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.155814 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Syria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.314747 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+
+]
+---
+
+.right-column[
+Map data to visual elements or parameters
+
+- year
+
+- pop
+
+- country
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.600 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.497 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.285 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.213 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+.right-column[
+Map data to visual elements or parameters
+
+- year → **x**
+
+- pop → **y**
+
+- country → *shape*, *color*, etc.
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; pop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.600 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.497 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chile &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.285 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rwanda &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.213 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+---
+
+.right-column[
+Map data to visual elements or parameters
+
+```r
+aes(
+  x = year,
+  y = pop,
+  colour = country
+)
+```
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+
+---
+
+.right-column[
+* What geoms have you seen so far?
+]
+
+---
+
+.right-column[
+Here are the [some of the most widely used geoms](https://eric.netlify.com/2017/08/10/most-popular-ggplot2-geoms/)
+
+.font70.center[
+| Type | Function |
+|:----:|:--------:|
+| Point | `geom_point()` |
+| Line | `geom_line()` |
+| Bar | `geom_bar()`, `geom_col()` |
+| Histogram | `geom_histogram()` |
+| Regression | `geom_smooth()` |
+| Boxplot | `geom_boxplot()` |
+| Text | `geom_text()` |
+| Vert./Horiz. Line | `geom_{vh}line()` |
+| Count | `geom_count()` |
+| Density | `geom_density()` |
+
+&lt;https://eric.netlify.com/2017/08/10/most-popular-ggplot2-geoms/&gt;
+]
+]
+
+
+---
+
+.right-column[
+
+See &lt;http://ggplot2.tidyverse.org/reference/&gt; for many more options
+
+.font70[
+
+```
+##  [1] "geom_abline"            "geom_area"              "geom_bar"              
+##  [4] "geom_bin_2d"            "geom_bin2d"             "geom_blank"            
+##  [7] "geom_boxplot"           "geom_col"               "geom_contour"          
+## [10] "geom_contour_filled"    "geom_count"             "geom_crossbar"         
+## [13] "geom_curve"             "geom_density"           "geom_density_2d"       
+## [16] "geom_density_2d_filled" "geom_density2d"         "geom_density2d_filled" 
+## [19] "geom_dotplot"           "geom_errorbar"          "geom_errorbarh"        
+## [22] "geom_freqpoly"          "geom_function"          "geom_hex"              
+## [25] "geom_histogram"         "geom_hline"             "geom_jitter"           
+## [28] "geom_label"             "geom_line"              "geom_linerange"        
+## [31] "geom_map"               "geom_path"              "geom_point"            
+## [34] "geom_pointrange"        "geom_polygon"           "geom_qq"               
+## [37] "geom_qq_line"           "geom_quantile"          "geom_raster"           
+## [40] "geom_rect"              "geom_ribbon"            "geom_rug"              
+## [43] "geom_segment"           "geom_sf"                "geom_sf_label"         
+## [46] "geom_sf_text"           "geom_smooth"            "geom_spoke"            
+## [49] "geom_step"              "geom_text"              "geom_tile"             
+## [52] "geom_violin"            "geom_vline"
+```
+]
+]
+
+---
+
+.right-column[
+&lt;img src="images/geom.gif" width="250px" style="float: right; margin-right: 100px; margin-top: 0px;"&gt;
+Or just start typing `geom_` in RStudio
+]
+
+---
+layout: true
+# Which geom to choose?
+---
+
+- Variable types
+
+- Type of plot (Distribution, Relationship, Count, Part of Whole etc.)
+
+- Use the [R Graphy Gallery](https://www.r-graph-gallery.com/index.html) for inspiration
+
+
+---
+layout: true
+# Our first plot!
+---
+
+.left-code[
+
+```r
+ggplot(tidy_pop)
+```
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot1a-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(tidy_pop,
+* aes(x = year,
+*     y = pop)
+  )
+```
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot1b-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(tidy_pop,
+  aes(x = year,
+      y = pop)
+  ) +
+* geom_point()
+```
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot1c-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(tidy_pop,
+  aes(x = year,
+      y = pop,
+*     color = country)
+  ) + 
+  geom_point()
+```
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot1-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+ggplot(tidy_pop,
+  aes(x = year,
+      y = pop,
+      color = country) 
+  ) +
+  geom_point() +
+* geom_line()
+```
+
+.font80[
+```r
+geom_path: Each group consists
+of only one observation. 
+Do you need to adjust the 
+group aesthetic?
+```
+]
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot2-fake-1.png" width="100%" /&gt;
+]
+---
+
+.left-code[
+
+```r
+ggplot(tidy_pop,
+  aes(x = year,
+      y = pop,
+      color = country) 
+  ) +
+  geom_point() +
+  geom_line(
+*   aes(group = country))
+```
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot2-1.png" width="100%" /&gt;
+]
+
+---
+
+
+.left-code[
+
+```r
+*g &lt;- ggplot(tidy_pop,
+  aes(x = year,
+      y = pop,
+      color = country) 
+  ) +
+  geom_point() +
+  geom_line(
+    aes(group = country))
+
+*g 
+```
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot3-1.png" width="100%" /&gt;
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+---
+
+.right-column[
+```r
+geom_*(mapping = aes(), data, stat, position)
+```
+
+- `data` Geoms can have their own data
+    - Has to map onto global coordinates
+
+- `aes` Geoms can have their own aesthetics
+    - Inherits global aesthetics
+    - Have geom-specific aesthetics
+        - `geom_point` needs `x` and `y`, optional `shape`, `color`, `size`, etc.
+        - `geom_ribbon` requires `x`, `ymin` and `ymax`, optional `fill`
+    - Use `?` to find out the aesthetics required and the ones you can change:
+    `?geom_ribbon`
+]
+
+---
+
+.right-column[
+```r
+geom_*(mapping, data, stat, position)
+```
+
+- `stat` Some geoms apply further transformations to the data
+    - All respect `stat = 'identity'`
+    - Ex: `geom_histogram` uses `stat_bin()` to group observations
+    
+- `position` Some adjust location of objects
+    - `'dodge'`, `'stack'`, `'jitter'`
+]
+
+---
+layout: true
+# Our first plot!
+---
+
+.left-code[
+
+```r
+g &lt;- ggplot() +
+  geom_point(
+*   data = tidy_pop,
+*   aes(x = year,
+*     y = pop,
+*     color = country)
+  ) +
+  geom_line(
+*   data = tidy_pop,
+*   aes(x = year,
+*     y = pop,
+*     color = country,
+*     group = country)
+    )
+
+g
+```
+]
+
+.right-plot[
+&lt;img src="index_files/figure-html/first-plot-geom-1-1.png" width="100%" /&gt;
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+---
+
+.right-column[
+```r
+geom_*(mapping = aes(), data, stat, position)
+```
+
+- `data` Geoms can have their own data
+    - Has to map onto global coordinates
+
+.font150[What would the advantage be for a geom to have their own data?]
+
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+### Facet
+
+```r
++facet_wrap() 
+
++facet_grid()
+```
+]
+---
+
+
+
+.right-plot[
+
+```r
+g + facet_wrap(~ country)
+```
+
+&lt;img src="index_files/figure-html/geom_facet-1.png" width="90%" /&gt;
+]
+
+---
+
+.right-column[
+
+```r
+g + facet_grid(continent ~ country)
+```
+
+&lt;img src="index_files/figure-html/geom_grid-1.png" width="90%" /&gt;
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+### Facet
+### Labels
+
+```r
++ labs()
+```
+]
+---
+
+
+
+
+.right-column[
+
+```r
+(g &lt;- g + labs(x = "Year", y = "Population (millions)"))
+```
+
+&lt;img src="index_files/figure-html/labs-ex-1.png" width="90%" /&gt;
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+### Facet
+### Labels
+### Coords
+
+```r
++ coord_*()
+```
+]
+---
+
+
+
+
+.right-column[
+
+```r
+g + coord_flip()
+```
+
+&lt;img src="index_files/figure-html/coord-ex-1.png" width="90%" /&gt;
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+### Facet
+### Labels
+### Coords
+### Scales
+
+```r
++ scale_*_*()
+```
+]
+---
+
+.right-column[ 
+`scale` + `_` + `&lt;aes&gt;` + `_` + `&lt;type&gt;` + `()`
+
+`&lt;aes&gt;` = parameter to adjust; `&lt;type&gt;` = Parameter Type
+]
+--
+
+.right-column[
+- I want to use a different color palette&lt;br&gt;`scale_fill_discrete()`&lt;br&gt;`scale_color_continuous()` &lt;br&gt; - I want to use an accessible color palette &lt;br&gt; `scale_colour_viridis_d()`
+]
+
+--
+
+.right-column[
+- I want to rescale y-axis as log&lt;br&gt;`scale_y_log10()`
+]
+
+--
+
+.right-column[
+- I want to change my discrete x-axis&lt;br&gt;`scale_x_discrete()`
+]
+
+
+
+---
+
+
+
+.right-column[
+
+```r
+g + scale_color_manual(values = c("peru", "pink", "plum"))
+```
+
+&lt;img src="index_files/figure-html/scale_ex1-1.png" width="90%" /&gt;
+]
+
+---
+
+.right-column[
+
+```r
+g + scale_y_log10()
+```
+
+&lt;img src="index_files/figure-html/scale_ex2-1.png" width="90%" /&gt;
+]
+
+---
+
+.right-column[
+
+```r
+g + scale_x_discrete(labels = c("MCMXCVII", "MMII", "MMVII"))
+```
+
+&lt;img src="index_files/figure-html/scale_ex4-1.png" width="90%" /&gt;
+]
+
+---
+layout: true
+# gg is for Grammar of Graphics
+
+.left-column[
+### Data
+### Aesthetics
+### Geoms
+### Facet
+### Labels
+### Coords
+### Scales
+### Theme
+
+```r
++ theme()
+```
+]
+
+---
+
+.right-column[
+Change the appearance of plot decorations&lt;br&gt;
+i.e. things that aren't mapped to data
+
+A few "starter" themes ship with the package
+
+- `g + theme_bw()`
+- `g + theme_dark()`
+- `g + theme_gray()`
+- `g + theme_light()`
+- `g + theme_minimal()`
+
+]
+
+---
+
+.right-column[
+
+
+```r
+g + theme_bw()
+```
+
+&lt;img src="index_files/figure-html/theme_ex1-1.png" width="90%" /&gt;
+
+]
+
+---
+.right-column[
+Huge number of parameters, grouped by plot area:
+
+- Global options: `line`, `rect`, `text`, `title`
+- `axis`: x-, y- or other axis title, ticks, lines
+- `legend`: Plot legends
+- `panel`: Actual plot area
+- `plot`: Whole image
+- `strip`: Facet labels
+]
+---
+
+.right-column[
+Theme options are supported by helper functions:
+
+- `element_blank()` removes the element
+- `element_line()`
+- `element_rect()`
+- `element_text()`
+]
+
+---
+
+.right-column[
+.font80[
+
+```r
+g + theme_bw() + theme(text = element_text(colour = "hotpink", size = 20))
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-1-1.png" width="90%" /&gt;
+]
+]
+
+---
+
+.right-column[
+You can also set the theme globally with `theme_set()`
+
+
+```r
+my_theme &lt;- theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 12),
+    panel.border = element_rect(colour = 'grey80'), 
+    panel.grid.minor = element_blank()
+  )
+
+theme_set(my_theme)
+```
+
+All plots will now use this theme!
+]
+
+---
+
+.right-column[
+
+```r
+g + theme(legend.position = 'bottom')
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-2-1.png" width="90%" /&gt;
+]
+
+---
+layout: false
+# Save Your Work
+
+To save your plot, use **ggsave**. 
+
+
+```r
+ggsave(
+  filename = "my_plot.png",
+  plot = my_plot,
+  width = 10,
+  height = 8,
+  dpi = 100,
+  device = "png"
+)
+```
+---
+layout: false
+class: inverse, middle, center
+
+# Recap and where to go next
+---
+layout: true
+# Plots are built in layers
+---
+
+.font120[
+- **Data** must be in a "tidy" format.
+]
+
+--
+.font120[
+- **.hlb[Aes]thetic mappings** link variables in the data to graphical properties in the **.hlb[geom]**etric objects.
+
+]
+
+--
+.font120[
+- **.hlb[Geom]etric objects** dictate how the **.hlb[aes]thetics** are interpreted as a graphical representation (points, lines, polygons, etc.)
+]
+
+--
+.font120[
+- **.hlb[Stat]istics** transform the input variables to displayed values. E.g. calculate the summary statistics for a boxplot (quantiles).
+]
+
+--
+.font120[
+- **.hlb[Coord]inates** organize location of geometric objects, i.e. define the physical mapping of the aesthetics.
+]
+
+---
+layout: true
+# Plots are built in layers
+---
+
+.font120[
+- **.hlb[Scale]s** define the range of values for aesthetics (e.g. categories -&gt; colours).
+]
+
+--
+.font120[
+- **.hlb[Facet]s** define the number of panels and how to split data among them (e.g. by country).
+]
+
+--
+.font120[
+- **.hlb[Theme]s** control every part of the graphic that is not linked to the data (i.e. font, visual appearance).
+]
+
+---
+layout: true
+# Stack Exchange is Great!
+---
+
+![](images/stack-exchange-search.png)
+
+---
+
+&lt;img src="images/stack-exchange-answer.png" style="max-height: 100%"&gt;
+
+---
+layout: false
+
+# ggplot2 Extensions: ggplot2-exts.org
+
+&lt;img src="images/ggplot2-exts-gallery.png" style="max-height: 90%"&gt;
+
+---
+# ggplot2 and beyond
+
+### Learn more
+
+- **Draw anything with ggplot2**: &lt;https://github.com/thomasp85/ggplot2_workshop&gt;
+
+- **Be the boss of your factors and other useful tips:** &lt;https://stat545.com/index.html&gt;
+
+- **ggplot2 docs:** &lt;http://ggplot2.tidyverse.org/&gt;
+
+- **R4DS - Data visualization:** &lt;http://r4ds.had.co.nz/data-visualisation.html&gt;
+
+- **Hadley Wickham's ggplot2 book:** &lt;https://www.amazon.com/dp/0387981403/&gt;
+
+---
+# ggplot2 and beyond
+
+### Noteworthy RStudio Add-Ins
+
+- [esquisse](https://github.com/dreamRs/esquisse): Interactively build ggplot2 plots
+
+- [ggplotThemeAssist](https://github.com/calligross/ggthemeassist): Customize your ggplot theme interactively
+
+- [ggedit](https://github.com/metrumresearchgroup/ggedit): Layer, scale, and theme editing
+
+---
+
+# Practice and Review
+
+### #TidyTuesday
+
+- &lt;https://github.com/rfordatascience/tidytuesday&gt;
+
+### Fun Datasets
+
+- `fivethirtyeight`
+
+- `nycflights`
+
+- `ggplot2movies`
+
+
+---
+class: inverse, center, middle
+
+# Thanks!
+
+Slides created via the R package [xaringan](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [knitr](http://yihui.org/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+
+.font150.text-white[
+Slides and code adapted from Garrick Aden-Buie GitHub: &lt;http://github.com/gadenbuie/gentle-ggplot2&gt;
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "foundation",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
